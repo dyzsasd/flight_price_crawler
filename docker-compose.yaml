@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    ports:
+      - "5001:80"
+    environment:
+      - HEADERS_USER_AGENT=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3
+      - TIMEOUT=10
+      - RETRY_ATTEMPTS=3
+      - RETRY_DELAY=5
+      - RYANAIR_BASE_URL=https://www.ryanair.com
+      - MONGODB_URI=mongodb://<your_mongodb_username>:<your_mongodb_password>@mongo:27017/
+      - MONGODB_DB_NAME=flight_data
+      - MONGODB_COLLECTION_NAME=flights
+  mongo:
+    image: "mongo:latest"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=test
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
